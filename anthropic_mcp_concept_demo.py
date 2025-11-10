@@ -67,6 +67,7 @@ class AnthropicMCPConceptDemo:
         print()
         
         # 3단계: 결과 분석
+        read_response = None  # 변수 초기화
         if search_response.get("results"):
             first_file = search_response["results"][0]
             read_response = await self._call_tool("read_file", {
@@ -77,7 +78,10 @@ class AnthropicMCPConceptDemo:
         
         print("\n📊 효율성 비교:")
         print(f"   기존 방식: ~{len(total_content) // 4:,} 토큰")
-        mcp_tokens = (len(json.dumps(tools_response)) + len(json.dumps(search_response)) + len(json.dumps(read_response))) // 4
+        
+        # read_response가 None인 경우 처리
+        read_tokens = len(json.dumps(read_response)) // 4 if read_response else 0
+        mcp_tokens = (len(json.dumps(tools_response)) + len(json.dumps(search_response)) + read_tokens) // 4
         print(f"   MCP 방식: ~{mcp_tokens:,} 토큰")
         print(f"   🎉 토큰 절약: {((len(total_content) // 4) - mcp_tokens) / (len(total_content) // 4) * 100:.1f}%")
         
