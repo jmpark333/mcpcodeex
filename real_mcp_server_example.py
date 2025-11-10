@@ -258,46 +258,43 @@ class SimpleFileMCPServer:
 
 
 async def demonstrate_real_mcp():
-    """실제 MCP 서버 호출 데모"""
+    """실제 MCP 서버 호출 데모 (단순화 버전)"""
     print("🎯 실제 MCP 서버 직접 호출 데모 시작")
     print("=" * 60)
     
-    # 1. MCP 서버 프로세스 시작
-    server_command = [sys.executable, __file__, "--server-mode"]
-    client = RealMCPServerClient(server_command)
+    # 실제 프로세스 분리 대신, 단순화된 데모
+    server = SimpleFileMCPServer("mcp_workspace")
     
     try:
-        # 서버 시작
-        server_task = asyncio.create_task(
-            SimpleFileMCPServer("mcp_workspace").run()
-        )
-        
-        # 클라이언트 연결 (실제로는 별도 프로세스)
-        await asyncio.sleep(0.5)  # 서버 준비 대기
-        
-        # 2. 사용 가능한 도구 목록 조회
+        # 1. 사용 가능한 도구 목록 조회
         print("\n📋 1. 사용 가능한 도구 목록 조회")
         print("-" * 40)
-        tools = await client.list_tools()
-        for tool in tools:
+        tools_response = await server.handle_request("tools/list", {})
+        for tool in tools_response["tools"]:
             print(f"   🔧 {tool['name']}: {tool['description']}")
         
-        # 3. 디렉토리 목록 조회
+        # 2. 디렉토리 목록 조회
         print("\n📁 2. 작업 디렉토리 목록 조회")
         print("-" * 40)
-        dir_result = await client.call_tool("list_directory", {"path": "."})
+        dir_result = await server.handle_request("tools/call", {
+            "name": "list_directory",
+            "arguments": {"path": "."}
+        })
         if "error" not in dir_result:
             for item in dir_result["items"]:
                 icon = "📁" if item["type"] == "directory" else "📄"
                 size = f" ({item['size']} bytes)" if item["size"] else ""
                 print(f"   {icon} {item['name']}{size}")
         
-        # 4. 파일 검색 (실제 MCP 도구 호출)
+        # 3. 파일 검색 (실제 MCP 도구 호출)
         print("\n🔍 3. 파일 검색 (실제 MCP 도구 호출)")
         print("-" * 40)
-        search_result = await client.call_tool("search_files", {
-            "query": "AI 기술",
-            "max_results": 5
+        search_result = await server.handle_request("tools/call", {
+            "name": "search_files",
+            "arguments": {
+                "query": "AI 기술",
+                "max_results": 5
+            }
         })
         
         if "error" not in search_result:
@@ -306,24 +303,30 @@ async def demonstrate_real_mcp():
                 print(f"   📄 {result['name']} ({result['size']} bytes)")
                 print(f"      {result['content'][:100]}...")
         
-        # 5. 특정 파일 읽기
+        # 4. 특정 파일 읽기
         if search_result.get("results"):
             first_file = search_result["results"][0]["name"]
             print(f"\n📖 4. 파일 내용 읽기: {first_file}")
             print("-" * 40)
-            file_result = await client.call_tool("read_file", {"path": first_file})
+            file_result = await server.handle_request("tools/call", {
+                "name": "read_file",
+                "arguments": {"path": first_file}
+            })
             
             if "error" not in file_result:
                 content = file_result["content"]
                 print(f"   📊 파일 크기: {file_result['size']} bytes")
                 print(f"   📝 내용: {content[:200]}...")
         
-        # 6. 캐시 테스트 (동일 검색 재시도)
+        # 5. 캐시 테스트 (동일 검색 재시도)
         print("\n🔄 5. 캐시 테스트 (동일 검색 재시도)")
         print("-" * 40)
-        cached_result = await client.call_tool("search_files", {
-            "query": "AI 기술",
-            "max_results": 5
+        cached_result = await server.handle_request("tools/call", {
+            "name": "search_files",
+            "arguments": {
+                "query": "AI 기술",
+                "max_results": 5
+            }
         })
         
         if "error" not in cached_result:
