@@ -1,0 +1,34 @@
+{
+  "search_results": [],
+  "batch_processing": {
+    "processed_count": 0,
+    "total_words": 0,
+    "average_words": 0,
+    "documents": []
+  },
+  "execution_log": [
+    {
+      "action": "search",
+      "query": "AI 기술",
+      "results_count": 0,
+      "execution_time": 0.000978708267211914
+    },
+    {
+      "action": "search_cached",
+      "query": "AI 기술",
+      "results_count": 0
+    },
+    {
+      "action": "batch_process",
+      "document_count": 0,
+      "processed_count": 0,
+      "execution_time": 4.0531158447265625e-06
+    },
+    {
+      "action": "search",
+      "query": "MCP",
+      "results_count": 1,
+      "execution_time": 0.0003619194030761719
+    }
+  ]
+}

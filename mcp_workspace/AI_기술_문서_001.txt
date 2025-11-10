@@ -1,0 +1,1 @@
+RAG(Retrieval-Augmented Generation)는 검색 증강 생성 기술로, 외부 데이터베이스에서 정보를 검색하여 더 정확한 답변을 생성합니다.
