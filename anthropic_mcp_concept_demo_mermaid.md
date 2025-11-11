@@ -108,9 +108,15 @@ stateDiagram-v2
     ReturnCached --> UpdateHitCount: hit_count 증가
     UpdateHitCount --> [*]
     
-    note right of CacheHit: 속도 향상: 10-100배
-    note right of ExecuteTool: 첫 실행: O(n) 시간
-    note right of ReturnCached: 캐시 히트: O(1) 시간
+    note right of CacheHit
+        속도 향상: 10-100배
+    end note
+    note right of ExecuteTool
+        첫 실행: O(n) 시간
+    end note
+    note right of ReturnCached
+        캐시 히트: O(1) 시간
+    end note
 ```
 
 ## 3. 컨텍스트 효율성 (Context Efficiency) 필터링
