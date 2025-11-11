@@ -1,0 +1,31 @@
+sequenceDiagram
+    participant User as 사용자
+    participant Demo as MCP 데모
+    participant Tools as 도구 시뮬레이터
+    participant Files as 파일 시스템
+
+    User->>Demo: "AI 기술 관련 문서 찾아줘"
+
+    Note over Demo: 기존 방식 시뮬레이션
+    Demo->>Files: 모든 txt 파일 로드
+    Files-->>Demo: 전체 파일 내용 (수만 자)
+    Demo->>User: 📊 전체 로드: ~X,XXX 토큰
+
+    Note over Demo: MCP 방식 실행
+    Demo->>Tools: 도구 목록 조회
+    Tools-->>Demo: 사용 가능한 도구 목록
+    Demo->>User: 🔧 도구 목록: ~XX 토큰
+
+    Demo->>Tools: search_files("AI 기술", max_results=3)
+    Tools->>Files: AI 관련 파일 검색
+    Files-->>Tools: 검색 결과 파일 목록
+    Tools-->>Demo: 검색 결과 요약
+    Demo->>User: 🔍 검색 결과: ~XX 토큰
+
+    Demo->>Tools: read_file(첫 번째 결과 파일)
+    Tools->>Files: 특정 파일 읽기
+    Files-->>Tools: 파일 내용
+    Tools-->>Demo: 파일 내용
+    Demo->>User: 📖 파일 읽기: ~XX 토큰
+
+    Demo->>User: 🎉 토큰 절약: 90%+
