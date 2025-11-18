@@ -1,0 +1,85 @@
+# Dependencies
+node_modules/
+
+# Virtual Environments
+myenv/
+stable_env/
+computer-use-env/
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.whl
+*.so
+
+# Distribution / Packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Logs and Databases
+*.log
+*.db
+*.sqlite3
+discoverer_log_*.txt
+
+# Backups and Temporary Files
+backups/
+*_backup*.html
+*.bak
+*.tmp
+*.swp
+*~
+
+# OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE and Tools
+.vscode/
+.idea/
+.gemini/
+.git/
+.chainlit/
+.claude/
+.files/
+.netlify/
+.qodo/
+.qwen/
+.serena/
+.goosehints
+
+# Specific Large/Unnecessary Files
+install.sh
+screenshot/
+mcp_workspace/
+mcp_api_workspace/
+jules_auth_code.txt
